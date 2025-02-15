@@ -11,25 +11,23 @@ youtube = googleapiclient.discovery.build(
 
 request = youtube.commentThreads().list(
     part="snippet",
-    videoId="2QiFl9Dc7D0",
+    videoId="KDorKy-13ak",
     maxResults=100
 )
 response = request.execute()
-
 comments = []
 
 for item in response['items']:
     comment = item['snippet']['topLevelComment']['snippet']
     comments.append([
-        comment['authorDisplayName'],
-        comment['publishedAt'],
-        comment['updatedAt'],
+        comment['authorDisplayName'].replace("&#39;", "'").replace("</b>", " ").replace("<b>", " ").replace("<br>", " "),
+        comment['publishedAt'].replace("&#39;", "'").replace("</b>", " ").replace("<b>", " ").replace("<br>", " "),
+        comment['updatedAt'].replace("&#39;", "'").replace("</b>", " ").replace("<b>", " ").replace("<br>", " "),
         comment['likeCount'],
-        comment['textDisplay']
+        comment['textDisplay'].replace("&#39;", "").replace("</b>", "").replace("<b>", " ").replace("<br>", " ")
     ])
 
 df = pd.DataFrame(comments, columns=['author', 'published_at', 'updated_at', 'like_count', 'text'])
-
-df.head(10).to_csv('youtube_comments.txt', index=False, sep='\t')  # Using tab as the separator
+df.head(100).to_csv('youtube_comments.txt', index=False, sep='\t', quoting=1, escapechar="'")  # Using tab as the separator
 
 print("Output written to youtube_comments.txt")
