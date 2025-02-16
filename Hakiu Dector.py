@@ -46,7 +46,7 @@ for idx, line in enumerate(youtube_comments):
             syllable_breakdown.append(syllable_count)
 
         if sum(syllable_breakdown[: 5]) == 5 and sum(syllable_breakdown[5: 12]) == 7 and sum(syllable_breakdown[12: ]) == 5:
-            print(f"Comment {idx + 1} is a haiku!\n\"{comment}\"")
+            print(comment)
 
         # Store the syllable count for this comment
         comment_syllable_counts[idx + 1] = total_syllables 
